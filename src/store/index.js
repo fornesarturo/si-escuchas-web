@@ -153,7 +153,7 @@ export default new Vuex.Store({
       channelService.createChannel({ owner: state.userId })
         .then(channel => {
           const message = {
-            message: "Start up",
+            message: "createChannel",
             sender: state.userId,
             channelId: channel.id,
             trackUri: "",
@@ -174,54 +174,65 @@ export default new Vuex.Store({
             alert("No channel, oopsie")
             return
           }
-          console.log("Connecting to Channel:", channel)
-          commit("setChannelId", channel.id)
-          const eventSource = new EventSource(`${process.env.VUE_APP_API_URL}/msg/sse/${channel.id}`)
-          eventSource.onmessage = function (event) {
-            console.log("SSE Received: ", JSON.parse(event.data))
+          const message = {
+            message: "connectUser",
+            sender: state.userId,
+            channelId: channelId,
+            createdAt: Date.now()
           }
-          eventSource.onerror = function (err) {
-            console.log("SSE Error:", err)
-          }
-          eventSource.addEventListener("trackUpdate", function (event) {
-            const data = JSON.parse(event.data)
-            if (data == null) return
-            const seconds = 5
-            const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
-            if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-              console.log("Just missed this:", event.data)
-              return
-            }
-            console.log("PARSED SSE:", data)
-            if (data.trackUri != null && data.trackUri.length > 10 && data.track != null) {
-              dispatch("play", data.track)
-            }
-          })
-          eventSource.addEventListener("pause", function (event) {
-            const data = JSON.parse(event.data)
-            if (data == null) return
-            const seconds = 5
-            const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
-            if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-              console.log("Just missed this:", event.data)
-              return
-            }
-            console.log("SSE Pause:", data)
-            dispatch("pause")
-          })
-          eventSource.addEventListener("resume", function (event) {
-            const data = JSON.parse(event.data)
-            if (data == null) return
-            const seconds = 5
-            const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
-            if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-              console.log("Just missed this:", event.data)
-              return
-            }
-            console.log("SSE Resume:", data)
-            dispatch("resume")
-          })
-          state.eventSource = eventSource
+          messagesService.sendMessage(message)
+            .then(res => {
+              console.log("Connected to Channel:")
+              console.log(channel)
+              console.log(res)
+              commit("setChannelId", channel.id)
+              const eventSource = new EventSource(`${process.env.VUE_APP_API_URL}/msg/sse/${channel.id}`)
+              eventSource.onmessage = function (event) {
+                console.log("SSE Received: ", JSON.parse(event.data))
+              }
+              eventSource.onerror = function (err) {
+                console.log("SSE Error:", err)
+              }
+              eventSource.addEventListener("trackUpdate", function (event) {
+                const data = JSON.parse(event.data)
+                if (data == null) return
+                const seconds = 5
+                const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
+                if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
+                  console.log("Just missed this:", event.data)
+                  return
+                }
+                console.log("PARSED SSE:", data)
+                if (data.trackUri != null && data.trackUri.length > 10 && data.track != null) {
+                  dispatch("play", data.track)
+                }
+              })
+              eventSource.addEventListener("pause", function (event) {
+                const data = JSON.parse(event.data)
+                if (data == null) return
+                const seconds = 5
+                const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
+                if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
+                  console.log("Just missed this:", event.data)
+                  return
+                }
+                console.log("SSE Pause:", data)
+                dispatch("pause")
+              })
+              eventSource.addEventListener("resume", function (event) {
+                const data = JSON.parse(event.data)
+                if (data == null) return
+                const seconds = 5
+                const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
+                if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
+                  console.log("Just missed this:", event.data)
+                  return
+                }
+                console.log("SSE Resume:", data)
+                dispatch("resume")
+              })
+              state.eventSource = eventSource
+            }).catch(err => console.log(err))
         }).catch(err => console.log(err))
     },
     disconnect({ state, commit }) {
