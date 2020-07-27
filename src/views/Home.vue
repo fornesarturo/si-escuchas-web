@@ -49,6 +49,10 @@ export default {
   },
   mixins: [cookie],
   beforeMount() {
+    const queryAccessToken = this.$route.query.access_token
+    if (queryAccessToken != null && queryAccessToken.length > 0) {
+      this.accessToken = queryAccessToken
+    }
     this.me()
   },
   data: function () {
@@ -57,8 +61,13 @@ export default {
     }
   },
   computed: {
-    accessToken() {
-      return this.getCookie("access_token")
+    accessToken: {
+      get() {
+        return this.$store.getters.accessToken
+      },
+      set(value) {
+        this.$store.commit("setAccessToken", value)
+      }
     },
     refreshToken() {
       return this.getCookie("refresh_token")

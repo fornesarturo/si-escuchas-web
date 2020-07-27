@@ -3,6 +3,9 @@ import cookie from "./cookie"
 export default {
   mixins: [cookie],
   computed: {
+    accessToken() {
+      return this.$store.getters.accessToken
+    },
     ready: {
       get() {
         return this.$store.getters.spotifyPlaybackSDKReady
@@ -34,8 +37,10 @@ export default {
   },
   methods: {
     createPlayer() {
-      if (!this.ready) return
-      const token = this.getCookie("access_token")
+      if (!this.ready || this.accessToken == null || this.accessToken.length === 0) {
+        return
+      }
+      const token = this.accessToken
       this.player = new window.Spotify.Player({
         name: 'Reproductor bien cool',
         getOAuthToken: cb => { cb(token) }

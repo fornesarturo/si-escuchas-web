@@ -31,6 +31,9 @@ export default new Vuex.Store({
     },
     setChannelId(state, channelId) {
       state.channelId = channelId
+    },
+    setAccessToken(state, accessToken) {
+      localStorage.setItem("access_token", accessToken)
     }
   },
   actions: {
@@ -230,6 +233,9 @@ export default new Vuex.Store({
     },
     channelId(state) {
       return state.channelId
+    },
+    accessToken(state) {
+      return localStorage.getItem("access_token")
     }
   }
 })
