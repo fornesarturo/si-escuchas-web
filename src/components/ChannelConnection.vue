@@ -50,13 +50,14 @@ export default {
 <style scoped>
 input {
   width: 80%;
-  max-width: 200px;
+  max-width: 280px;
   height: 20px;
   background-color: palegoldenrod;
   color: darkslategrey;
   font-size: medium;
   text-align: center;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 button {
@@ -65,5 +66,6 @@ button {
   height: 25px;
   color: rgb(65, 65, 65);
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 </style>
