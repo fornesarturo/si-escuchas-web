@@ -85,7 +85,13 @@ export default {
     },
     refresh_token() {
       service.refreshToken()
-        .then(res => console.log(res))
+        .then(res => {
+          if (res.access_token != null) {
+            this.accessToken = res.access_token
+          } else if (res.accessToken != null) {
+            this.accessToken = res.accessToken
+          }
+        })
     }
   }
 }
