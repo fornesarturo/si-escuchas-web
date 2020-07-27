@@ -5,7 +5,11 @@
       </div>
       <hr>
       <div class="tracks">
-        <Track v-for="track in items" :key="track.id" v-bind="track" @clicked-track="$emit('select', track)"/>
+        <Track v-for="track in items" :key="track.id" v-bind="track" @clicked-track="$emit('select', track)">
+          <template v-slot:actions>
+            <button>Add to Queue</button>
+          </template>
+        </Track>
       </div>
     </div>
 </template>
@@ -50,5 +54,13 @@ export default {
   grid-auto-rows: 115px;
   justify-content: center;
   row-gap: 10px;
+}
+
+button {
+  background-color: rgb(255, 206, 166);
+  min-width: 80px;
+  height: 25px;
+  color: rgb(65, 65, 65);
+  border-radius: 5px;
 }
 </style>

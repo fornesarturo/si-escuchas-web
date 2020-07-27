@@ -2,7 +2,7 @@
     <div>
       <channel-connection/>
       <div v-if="player != null">
-        Player: {{player._options.name}}
+        Player: <b>{{player._options.name}}</b>
       </div>
       <div v-else>
         <button @click="createPlayer()">Start Player</button>
@@ -10,11 +10,16 @@
       <div v-if="currentlyPlaying != null">
         <div>
           Now Playing:
-          <button v-if="paused" @click="resume()">Play</button>
-          <button v-else @click="pause()">Pause</button>
         </div>
         <div class="now-playing">
-          <Track v-bind="currentlyPlaying"/>
+          <Track v-bind="currentlyPlaying">
+            <template v-slot:actions>
+              <div>
+                <button v-if="paused" @click="resume()">Play</button>
+                <button v-else @click="pause()">Pause</button>
+              </div>
+            </template>
+          </Track>
         </div>
       </div>
       <Search/>
@@ -66,7 +71,14 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: minmax(300px, 600px);
-  grid-template-rows: minmax(120px, 1fr);
+  grid-template-rows: 115px;
   justify-content: center;
+}
+button {
+  background-color: rgb(255, 206, 166);
+  min-width: 80px;
+  height: 25px;
+  color: rgb(65, 65, 65);
+  border-radius: 5px;
 }
 </style>

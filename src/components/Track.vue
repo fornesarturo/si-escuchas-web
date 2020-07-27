@@ -1,5 +1,8 @@
 <template>
   <div class="container" @click="$emit('clicked-track')">
+    <div class="actions">
+      <slot name="actions"></slot>
+    </div>
     <img class="cover" :src="album.cover" width="100">
     <div class="name">
       {{name}}
@@ -8,7 +11,7 @@
       <i>{{artists[0].name}}</i>
     </div>
     <div class="info">
-      {{album.name}} <b>{{duration}}</b>
+      <span class="text-truncate">{{album.name}}</span> <b>{{duration}}</b>
     </div>
   </div>
 </template>
@@ -61,42 +64,58 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.text-truncate {
+   display: inline-flex;
+   max-width: 150px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
 .container {
   grid-column: 1 / -1;
   display: grid;
   width: 100%;
   /* margin-right: auto;
   margin-left: auto; */
-  grid-template: repeat(3, 1fr) / repeat(3, minmax(100px, 1fr));
+  grid-template: repeat(3, 1fr) minmax(0px, 1fr) / repeat(3, minmax(100px, 1fr));
   /* padding: 20px 50px; */
   border: 1px solid gray;
 }
 
+.actions {
+  grid-column: 2 / span 2;
+  grid-row: 4 / span 1;
+  justify-self: center;
+  align-self: center;
+  min-height: 0px;
+}
+
 .cover {
   display: block;
-  grid-row: 1 / span 3;
-  grid-column: 1 / 2;
+  grid-row: 1 / span 4;
+  grid-column: 1 / span 1;
   justify-self: center;
   align-self: center;
 }
 
 .name {
-  grid-row: 1 / span 1;
-  grid-column: 2 / 4;
+  grid-row: span 1;
+  grid-column: 2 / span 2;
   align-self: end;
   font-size: larger;
 }
 
 .artist {
-  grid-row: 2 / span 1;
-  grid-column: 2 / 4;
+  grid-row: span 1;
+  grid-column: 2 / span 2;
   align-self: end;
   font-size: medium;
 }
 
 .info {
-  grid-row: 3 / span 1;
-  grid-column: 2 / 4;
+  grid-row: span 1;
+  grid-column: 2 / span 2;
   align-self: start;
   font-size: small;
 }

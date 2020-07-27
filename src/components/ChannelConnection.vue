@@ -58,4 +58,12 @@ input {
   text-align: center;
   border-radius: 5px;
 }
+
+button {
+  background-color: rgb(255, 206, 166);
+  min-width: 80px;
+  height: 25px;
+  color: rgb(65, 65, 65);
+  border-radius: 5px;
+}
 </style>
