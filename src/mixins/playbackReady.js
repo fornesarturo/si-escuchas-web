@@ -34,6 +34,12 @@ export default {
     window.onSpotifyWebPlaybackSDKReady = () => {
       this.ready = true
     }
+    window.onunload = () => {
+      this.$store.dispatch("disconnect")
+    }
+    window.onbeforeunload = () => {
+      this.$store.dispatch("disconnect")
+    }
   },
   methods: {
     createPlayer() {

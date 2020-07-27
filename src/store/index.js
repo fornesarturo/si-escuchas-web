@@ -182,7 +182,6 @@ export default new Vuex.Store({
           }
           eventSource.onerror = function (err) {
             console.log("SSE Error:", err)
-            eventSource.close()
           }
           eventSource.addEventListener("trackUpdate", function (event) {
             const data = JSON.parse(event.data)
@@ -227,9 +226,21 @@ export default new Vuex.Store({
     },
     disconnect({ state, commit }) {
       if (state.eventSource == null) return
-      state.eventSource.close()
-      state.eventSource = null
-      commit("setChannelId", "")
+      const message = {
+        message: "disconnectUser",
+        sender: state.userId,
+        channelId: state.channelId,
+        createdAt: Date.now()
+      }
+      messagesService.sendMessage(message)
+        .then(res => {
+          console.log("Sent:", res)
+        }).catch(err => console.log(err))
+        .finally(() => {
+          state.eventSource.close()
+          state.eventSource = null
+          commit("setChannelId", "")
+        })
     }
   },
   modules: {
