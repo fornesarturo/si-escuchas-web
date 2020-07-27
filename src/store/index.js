@@ -175,10 +175,12 @@ export default new Vuex.Store({
       eventSource.addEventListener("trackUpdate", function (event) {
         const data = JSON.parse(event.data)
         if (data == null) return
-        const seconds = 30
+        const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
           return
+        } else {
+          console.log("Just missed this:", event.data)
         }
         console.log("PARSED SSE:", data)
         if (data.trackUri != null && data.trackUri.length > 10 && data.track != null) {
@@ -188,10 +190,12 @@ export default new Vuex.Store({
       eventSource.addEventListener("pause", function (event) {
         const data = JSON.parse(event.data)
         if (data == null) return
-        const seconds = 30
+        const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
           return
+        } else {
+          console.log("Just missed this:", event.data)
         }
         console.log("SSE Pause:", data)
         dispatch("pause")
@@ -199,10 +203,12 @@ export default new Vuex.Store({
       eventSource.addEventListener("resume", function (event) {
         const data = JSON.parse(event.data)
         if (data == null) return
-        const seconds = 30
+        const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
           return
+        } else {
+          console.log("Just missed this:", event.data)
         }
         console.log("SSE Resume:", data)
         dispatch("resume")
