@@ -4,8 +4,11 @@
     <div class="name">
       {{name}}
     </div>
+    <div class="artist">
+      <i>{{artists[0].name}}</i>
+    </div>
     <div class="info">
-      <i>{{artists[0].name}}</i> {{album.name}} <b>{{duration}}</b>
+      {{album.name}} <b>{{duration}}</b>
     </div>
   </div>
 </template>
@@ -59,33 +62,42 @@ export default {
 
 <style lang="css" scoped>
 .container {
+  grid-column: 1 / -1;
   display: grid;
-  width: 600px;
-  margin-right: auto;
-  margin-left: auto;
-  grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-  padding: 20px 50px;
+  width: 100%;
+  /* margin-right: auto;
+  margin-left: auto; */
+  grid-template: repeat(3, 1fr) / repeat(3, minmax(100px, 1fr));
+  /* padding: 20px 50px; */
   border: 1px solid gray;
-  margin-bottom: 10px
 }
 
 .cover {
   display: block;
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
   grid-column: 1 / 2;
   justify-self: center;
+  align-self: center;
 }
 
 .name {
   grid-row: 1 / span 1;
-  grid-column: 2 / 3;
+  grid-column: 2 / 4;
   align-self: end;
   font-size: larger;
 }
 
-.info {
+.artist {
   grid-row: 2 / span 1;
-  grid-column: 2 / 3;
+  grid-column: 2 / 4;
+  align-self: end;
+  font-size: medium;
+}
+
+.info {
+  grid-row: 3 / span 1;
+  grid-column: 2 / 4;
   align-self: start;
+  font-size: small;
 }
 </style>

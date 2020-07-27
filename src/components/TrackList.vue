@@ -45,8 +45,10 @@ export default {
 <style scoped>
 .tracks {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(300px, 600px);
+  grid-auto-rows: 115px;
   justify-content: center;
+  row-gap: 10px;
 }
 </style>

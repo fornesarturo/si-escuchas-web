@@ -178,9 +178,8 @@ export default new Vuex.Store({
         const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-          return
-        } else {
           console.log("Just missed this:", event.data)
+          return
         }
         console.log("PARSED SSE:", data)
         if (data.trackUri != null && data.trackUri.length > 10 && data.track != null) {
@@ -193,9 +192,8 @@ export default new Vuex.Store({
         const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-          return
-        } else {
           console.log("Just missed this:", event.data)
+          return
         }
         console.log("SSE Pause:", data)
         dispatch("pause")
@@ -206,9 +204,8 @@ export default new Vuex.Store({
         const seconds = 5
         const dateNSecondsAgo = new Date(new Date().getTime() - seconds * 1000)
         if (new Date(data.createdAt).getTime() < dateNSecondsAgo.getTime()) {
-          return
-        } else {
           console.log("Just missed this:", event.data)
+          return
         }
         console.log("SSE Resume:", data)
         dispatch("resume")
