@@ -16,7 +16,9 @@ axiosInstance.interceptors.response.use(
     // Do something with response error
     console.log(`Oh no, error ocurred:`)
     console.log(error)
-    return Promise.reject(error)
+    if (error.response)
+      return error.response
+    return error
   })
 
 export default axiosInstance

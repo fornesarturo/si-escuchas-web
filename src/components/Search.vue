@@ -8,6 +8,7 @@
 
 <script>
 import * as service from '../services/play'
+import * as loginService from '../services/login'
 import TrackList from "./TrackList.vue"
 import debounce from "lodash.debounce"
 
@@ -38,6 +39,11 @@ export default {
       }
       service.search(this.searchText)
         .then(res => { this.tracks = res.tracks })
+        .catch(err => {
+          if (err.status === 401) {
+            loginService.refreshToken()
+          }
+        })
     },
     selectedTrack(track) {
       console.log(`Selected track: ${track.uri}`)
