@@ -91,7 +91,7 @@ export default {
   grid-column: 2 / span 2;
   grid-row: 4 / span 1;
   justify-self: center;
-  align-self: center;
+  align-self: start;
   min-height: 0px;
 }
 

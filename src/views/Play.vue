@@ -71,7 +71,7 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: minmax(300px, 600px);
-  grid-template-rows: 115px;
+  grid-template-rows: 135px;
   justify-content: center;
 }
 button {

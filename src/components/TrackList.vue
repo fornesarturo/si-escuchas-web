@@ -51,7 +51,7 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: minmax(300px, 600px);
-  grid-auto-rows: 115px;
+  grid-auto-rows: 135px;
   justify-content: center;
   row-gap: 10px;
 }
