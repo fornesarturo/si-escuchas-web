@@ -8,7 +8,7 @@
       {{name}}
     </div>
     <div class="artist">
-      <i>{{artists[0].name}}</i>
+      <i class="artist-name">{{artists[0].name}}</i><i class="explicit" v-if="explicit"> *explicit</i>
     </div>
     <div class="info">
       <span class="text-truncate">{{album.name}}</span> <b>{{duration}}</b>
@@ -48,6 +48,10 @@ export default {
     album: {
       type: Object,
       default: function() { return {} }
+    },
+    explicit: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -111,6 +115,14 @@ export default {
   grid-column: 2 / span 2;
   align-self: end;
   font-size: medium;
+}
+
+.artist-name {
+  font-size: medium;
+}
+
+.explicit {
+  font-size: smaller;
 }
 
 .info {
