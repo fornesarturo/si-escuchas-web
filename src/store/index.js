@@ -193,7 +193,7 @@ export default new Vuex.Store({
               eventSource.onerror = function (err) {
                 console.log("SSE Error:", err)
                 dispatch("disconnect")
-                  .then(() => dispatch("connect"))
+                  .then(() => dispatch("connect", channelId))
               }
               eventSource.addEventListener("trackUpdate", function (event) {
                 const data = JSON.parse(event.data)
