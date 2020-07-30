@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const axiosInstance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
-  headers: { "Access-Control-Allow-Origin": process.env.VUE_APP_API_URL },
   withCredentials: true
 })
 
@@ -15,11 +14,11 @@ axiosInstance.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     console.log(`Oh no, error ocurred:`)
-    console.log(error)
-    if (error.response) {
-      return error.response
+    console.log(error.response)
+    if (error.response != null) {
+      return Promise.reject(error.response)
     }
-    return error
+    return Promise.reject(error)
   })
 
 export default axiosInstance

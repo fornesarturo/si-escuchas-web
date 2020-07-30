@@ -46,10 +46,9 @@ export default {
       if (!this.ready || this.accessToken == null || this.accessToken.length === 0) {
         return
       }
-      const token = this.accessToken
       this.player = new window.Spotify.Player({
         name: 'Reproductor bien cool',
-        getOAuthToken: cb => { cb(token) }
+        getOAuthToken: cb => { cb(localStorage.getItem("access_token")) }
       })
 
       // Error handling

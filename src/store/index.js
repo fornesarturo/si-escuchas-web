@@ -3,6 +3,7 @@ import Vuex from "vuex"
 
 import * as messagesService from "../services/messages"
 import * as channelService from "../services/channel"
+import * as playService from "../services/play"
 
 Vue.use(Vuex)
 
@@ -70,18 +71,9 @@ export default new Vuex.Store({
       }
       commit("setCurrentlyPlaying", track)
       commit("setPaused", false)
-      const getOAuthToken = state.player._options.getOAuthToken
+      // const getOAuthToken = state.player._options.getOAuthToken
       const id = state.player._options.id
-      getOAuthToken(accessToken => {
-        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-          method: 'PUT',
-          body: JSON.stringify({ uris: [track.uri] }),
-          headers: {
-            "Content-Type": 'application/json',
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-      })
+      playService.play(id, track.uri)
     },
     requestResume({ state, dispatch, commit }) {
       if (state.player == null) {
