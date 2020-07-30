@@ -14,12 +14,26 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter(to, from, next) {
+      if ([null, ""].includes(localStorage.getItem("access_token")) && [undefined, null, ""].includes(to.query.access_token)) {
+        next({ name: "Login" })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: "/play",
     name: "Play",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Play.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Play.vue'),
+    beforeEnter(to, from, next) {
+      if ([null, ""].includes(localStorage.getItem("access_token"))) {
+        next({ name: "Login" })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/about',

@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/play">Play</router-link>
+    <div v-if="!isLogin" id="nav">
+      <router-link class="item" id="item-home" to="/home">Home</router-link>
+      <router-link class="item" id="item-play" to="/play">Play</router-link>
     </div>
-    <router-view/>
+    <div id="content">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -13,13 +14,23 @@
 import playbackReady from "./mixins/playbackReady"
 
 export default {
-  mixins: [playbackReady]
+  mixins: [playbackReady],
+  computed: {
+    isLogin() {
+      return this.$route.name === "Login"
+    }
+  }
 }
 </script>
 
 <style>
 body {
-  background-color: darkslategray;
+  background-color: #0B3142;
+  margin: 0px;
+}
+
+#content {
+  margin: 8px;
 }
 
 #app {
@@ -32,6 +43,38 @@ body {
 }
 
 #nav {
+  display: flex;
+  justify-content: center;
+}
+
+.item {
+  flex-grow: 1;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: x-large;
+}
+
+#item-home {
+  background-color: #77ACA2;
+  color: whitesmoke;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+#item-play {
+  background-color: #9DBEBB;
+  color: whitesmoke;
+}
+
+#nav a.router-link-active {
+  border: 3px solid gainsboro;
+  height: 74px;
+}
+/* #nav {
   padding: 30px;
 }
 
@@ -42,5 +85,5 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

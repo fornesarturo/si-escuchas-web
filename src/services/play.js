@@ -12,6 +12,7 @@ export async function search(query) {
     return res
   } catch (err) {
     if (err.status === 401) {
+      localStorage.removeItem("access_token")
       const refreshResult = await refreshToken()
       localStorage.setItem("access_token", refreshResult.access_token)
       return await requestor.get("/search", { params: { query: correctlySpacedQuery } })
@@ -29,6 +30,7 @@ export async function play(id, trackUri) {
     return res
   } catch (err) {
     if (err.status === 401) {
+      localStorage.removeItem("access_token")
       const refreshResult = await refreshToken()
       localStorage.setItem("access_token", refreshResult.access_token)
       return await requestor.put(`https://api.spotify.com/v1/me/player/play?device_id=${id}`,

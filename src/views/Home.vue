@@ -5,7 +5,7 @@
         <div>
           <img width="150" :src="response.profilePicture" />
         </div>
-        <div>
+        <div id="info">
           <div>
             Display name: {{response.display_name}}
           </div>
@@ -16,6 +16,9 @@
             Email: {{response.email}}
           </div>
           <div>
+            Country: {{response.country}}
+          </div>
+          <div>
             Spotify URI: <a :href="response.externalUrl">{{response.externalUrl}}</a>
           </div>
           <div>
@@ -24,18 +27,17 @@
           <div>
             Profile Image: <a :href="response.profilePicture">{{response.profilePicture}}</a>
           </div>
-          <div>
-            Country: {{response.country}}
-          </div>
         </div>
     </div>
     <h2>OAuth</h2>
-    <div>
-      Access token: {{accessToken}}
-    </div>
     <button @click="refresh_token()">
       Obtain new token using the refresh token
     </button>
+    <div>
+      <button id="logout" @click="logout()">
+        Logout
+      </button>
+    </div>
   </div>
 </template>
 
@@ -92,7 +94,41 @@ export default {
             this.accessToken = res.accessToken
           }
         })
+    },
+    logout() {
+      localStorage.removeItem("access_token")
+      this.$router.push({ name: "Login" })
     }
   }
 }
 </script>
+
+<style scoped>
+button {
+  background-color: rgb(255, 206, 166);
+  min-width: 80px;
+  height: 25px;
+  color: rgb(65, 65, 65);
+  border-radius: 5px;
+}
+
+a {
+  overflow-wrap: break-word;
+}
+
+#info {
+  text-align: center;
+}
+
+#logout {
+  margin-top: 10px;
+  height: 100px;
+  width: 80%;
+  max-width: 200px;
+  background-color: #0F5257;
+  color: #FFFFFF;
+  font-size: x-large;
+  border: 4px solid gainsboro;
+  border-radius: 120px;
+}
+</style>

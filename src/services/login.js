@@ -10,6 +10,7 @@ export async function me() {
     return res
   } catch (err) {
     if (err.status === 401) {
+      localStorage.removeItem("access_token")
       const refreshResult = await refreshToken()
       localStorage.setItem("access_token", refreshResult.access_token)
       return await requestor.get('/me')
