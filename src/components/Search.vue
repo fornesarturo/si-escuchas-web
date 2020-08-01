@@ -2,7 +2,7 @@
     <div>
       <p>Look for Artist, Album or Track: </p>
       <input v-model="searchText" placeholder="The National, I Am Easy To Find, Where is her head ...">
-      <track-list v-bind="tracks" @select="selectedTrack"/>
+      <track-list v-bind="tracks" @select="selectedTrack" @enqueue="enqueueTrack"/>
     </div>
 </template>
 
@@ -48,6 +48,10 @@ export default {
     selectedTrack(track) {
       console.log(`Selected track: ${track.uri}`)
       this.$store.dispatch("requestPlay", track)
+    },
+    enqueueTrack(track) {
+      console.log(`Enqueueing track: ${track.uri}`)
+      this.$store.dispatch("enqueueTrack", track)
     }
   }
 }

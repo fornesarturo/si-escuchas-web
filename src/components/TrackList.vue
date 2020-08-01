@@ -5,9 +5,10 @@
       </div>
       <hr>
       <div class="tracks">
-        <Track v-for="track in items" :key="track.id" v-bind="track" @clicked-track="$emit('select', track)">
+        <Track v-for="track in items" :key="track.id" v-bind="track">
           <template v-slot:actions>
-            <button>Add to Queue</button>
+            <button @click="$emit('select', track)">Play</button>
+            <button @click="$emit('enqueue', track)">Add to Queue</button>
           </template>
         </Track>
       </div>

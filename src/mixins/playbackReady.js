@@ -2,6 +2,11 @@ import cookie from "./cookie"
 
 export default {
   mixins: [cookie],
+  data() {
+    return {
+      isAboutToEnd: false
+    }
+  },
   computed: {
     accessToken() {
       return this.$store.getters.accessToken
@@ -58,7 +63,17 @@ export default {
       this.player.addListener('playback_error', ({ message }) => { console.error(message) })
 
       // Playback status updates
-      this.player.addListener('player_state_changed', state => { console.log(state) })
+      this.player.addListener('player_state_changed', state => {
+        console.log(state)
+        if (state.duration > 0) {
+          const percentage = state.position / state.duration
+          console.log(percentage)
+          if (percentage > 0.98) {
+            console.log("ABOVE 98%, song did end!")
+            this.$store.dispatch("playNextInQueue")
+          }
+        }
+      })
 
       // Ready
       this.player.addListener('ready', ({ device_id: deviceId }) => {
