@@ -231,6 +231,7 @@ export default new Vuex.Store({
     async playNextInQueue({ state, dispatch }) {
       if (state.player == null) return
       if (state.channelId !== "") {
+        console.log(`Requesting next song... allowed: ${state.connected[0]}, you: ${state.userId}`)
         if (state.connected[0] !== state.userId) return
         const queue = state.queue
         if (queue.length === 0) return
@@ -238,6 +239,7 @@ export default new Vuex.Store({
         dispatch("requestPlay", nextTrack)
         dispatch("dequeueTrack", nextTrack)
       } else {
+        console.log("Requesting next song locally")
         const queue = state.queue
         if (queue.length === 0) return
         const nextTrack = queue[0]
