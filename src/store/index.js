@@ -18,7 +18,8 @@ export default new Vuex.Store({
     eventSource: null,
     userId: "",
     queue: [],
-    connected: []
+    connected: [],
+    channelOwner: ""
   },
   mutations: {
     setSpotifyPlaybackSDKReady(state, ready) {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     },
     setConnected(state, connected) {
       state.connected = connected
+    },
+    setChannelOwner(state, channelOwner) {
+      state.channelOwner = channelOwner
     }
   },
   actions: {
@@ -231,8 +235,12 @@ export default new Vuex.Store({
     async playNextInQueue({ state, dispatch }) {
       if (state.player == null) return
       if (state.channelId !== "") {
-        console.log(`Requesting next song... allowed: ${state.connected[0]}, you: ${state.userId}`)
-        if (state.connected[0] !== state.userId) return
+        console.log(`Requesting next song... allowed: ${state.connected[0]} or ${state.channelOwner}, you: ${state.userId}`)
+        if (state.connected.includes(state.channelOwner) && state.channelOwner !== state.userId) {
+          if (state.connected[0] !== state.userId {
+            return
+          }
+        }
         const queue = state.queue
         if (queue.length === 0) return
         const nextTrack = queue[0]
@@ -296,6 +304,7 @@ export default new Vuex.Store({
       console.log("connectUserResponse:", connectedChannel)
       commit("setQueue", connectedChannel.queue)
       commit("setConnected", connectedChannel.connected)
+      commit("setChannelOwner", connectedChannel.owner)
       console.log("Connected to Channel:")
       console.log(channel)
       console.log(res)
@@ -375,6 +384,7 @@ export default new Vuex.Store({
           .then(channel => {
             commit("setQueue", channel.queue)
             commit("setConnected", channel.connected)
+            commit("setChannelOwner", channel.owner)
           }).catch(err => console.log(err))
       })
       eventSource.addEventListener("connectUser", function (event) {
@@ -391,6 +401,7 @@ export default new Vuex.Store({
           .then(channel => {
             commit("setQueue", channel.queue)
             commit("setConnected", channel.connected)
+            commit("setChannelOwner", channel.owner)
           }).catch(err => console.log(err))
       })
       eventSource.addEventListener("enqueueTrack", function (event) {
@@ -407,6 +418,7 @@ export default new Vuex.Store({
           .then(channel => {
             commit("setQueue", channel.queue)
             commit("setConnected", channel.connected)
+            commit("setChannelOwner", channel.owner)
           }).catch(err => console.log(err))
       })
       eventSource.addEventListener("dequeueTrack", function (event) {
@@ -423,6 +435,7 @@ export default new Vuex.Store({
           .then(channel => {
             commit("setQueue", channel.queue)
             commit("setConnected", channel.connected)
+            commit("setChannelOwner", channel.owner)
           }).catch(err => console.log(err))
       })
       state.eventSource = eventSource
@@ -445,6 +458,7 @@ export default new Vuex.Store({
         console.log("disconnectUser result:", disconnectedChannel)
         commit("setQueue", [])
         commit("setConnected", [])
+        commit("setChannelOwner", "")
         state.eventSource.close()
         state.eventSource = null
         commit("setChannelId", "")
