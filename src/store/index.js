@@ -212,7 +212,6 @@ export default new Vuex.Store({
         return
       }
       if (state.channelId !== "") {
-        if (state.connected[0] !== state.userId) return
         const message = {
           message: "dequeueTrack",
           sender: state.userId,
