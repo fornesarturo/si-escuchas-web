@@ -236,10 +236,12 @@ export default new Vuex.Store({
       if (state.player == null) return
       if (state.channelId !== "") {
         console.log(`Requesting next song... allowed: ${state.connected[0]} or ${state.channelOwner}, you: ${state.userId}`)
-        if (state.connected.includes(state.channelOwner) && state.channelOwner !== state.userId) {
-          if (state.connected[0] !== state.userId {
+        if (state.connected.includes(state.channelOwner)) {
+          if (state.channelOwner !== state.userId) {
             return
           }
+        } else if (state.connected[0] !== state.userId) {
+          return
         }
         const queue = state.queue
         if (queue.length === 0) return
