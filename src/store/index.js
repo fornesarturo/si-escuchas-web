@@ -237,7 +237,7 @@ export default new Vuex.Store({
       if (state.channelId !== "") {
         console.log(`Requesting next song... allowed: ${state.connected[0]} or ${state.channelOwner}, you: ${state.userId}`)
         if (state.connected.includes(state.channelOwner) && state.channelOwner !== state.userId) {
-          if (state.connected[0] !== state.userId {
+          if (state.connected[0] !== state.userId) {
             return
           }
         }
