@@ -19,7 +19,8 @@ export default new Vuex.Store({
     userId: "",
     queue: [],
     connected: [],
-    channelOwner: ""
+    channelOwner: "",
+    volume: 0.5
   },
   mutations: {
     setSpotifyPlaybackSDKReady(state, ready) {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     setChannelOwner(state, channelOwner) {
       state.channelOwner = channelOwner
+    },
+    setVolume(state, value) {
+      state.volume = value
     }
   },
   actions: {
@@ -177,12 +181,14 @@ export default new Vuex.Store({
       state.player.seek(second * 1000)
         .then((res) => console.log(`Player seeked to ${minutes}:${seconds}`))
     },
-    setVolume({ state }, volume) {
+    setVolume({ state, commit }, volume) {
       if (state.player == null) {
         return
       }
       state.player.setVolume(volume)
-        .then(() => {})
+        .then(() => {
+          commit('setVolume', volume)
+        })
         .catch(err => console.log("Error while setting volume", err))
     },
     async enqueueTrack({ state, commit, dispatch }, track) {

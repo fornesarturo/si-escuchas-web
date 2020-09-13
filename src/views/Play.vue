@@ -12,7 +12,8 @@
             min="0"
             max="1"
             step="0.01"
-            v-model="volume"
+            :value="volume"
+            @input="setVolume($event.target.value)"
             >
         </div>
       </div>
@@ -58,6 +59,7 @@ import Search from "../components/Search.vue"
 import Track from "../components/Track.vue"
 import ChannelConnection from "../components/ChannelConnection.vue"
 import playbackReady from "../mixins/playbackReady"
+import { mapState, mapActions } from 'vuex'
 
 function zeroFill(number, width) {
   width -= number.toString().length
@@ -75,11 +77,11 @@ export default {
     return {
       displaySecond: "",
       shouldDisplaySecond: false,
-      volume: 1,
       estimatedSecond: 0
     }
   },
   computed: {
+    ...mapState(['volume']),
     currentlyPlaying: {
       get() {
         return this.$store.getters.currentlyPlaying
@@ -95,14 +97,15 @@ export default {
     }
   },
   watch: {
-    volume() {
-      this.$store.dispatch("setVolume", this.volume)
-    },
     currentlyPlaying() {
       this.startEstimatingSecond()
     }
   },
+  created() {
+    this.setVolume(this.volume)
+  },
   methods: {
+    ...mapActions(['setVolume']),
     startEstimatingSecond() {
       const st = setInterval(() => {
         console.log(this.estimatedSecond)
@@ -132,10 +135,6 @@ export default {
 </script>
 
 <style scoped>
-#player-details {
-
-}
-
 .now-playing {
   width: 100%;
   display: grid;
