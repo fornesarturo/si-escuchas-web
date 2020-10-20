@@ -1,13 +1,10 @@
-import Vue from "vue"
 import Vuex from "vuex"
 
 import * as messagesService from "../services/messages"
 import * as channelService from "../services/channel"
 import * as playService from "../services/play"
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default Vuex.createStore({
   state: {
     spotifyPlaybackSDKReady: false,
     player: null,

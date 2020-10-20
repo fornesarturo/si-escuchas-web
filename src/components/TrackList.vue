@@ -5,22 +5,22 @@
       </div>
       <hr>
       <div class="tracks">
-        <Track v-for="track in items" :key="track.id" v-bind="track">
+        <track-item v-for="track in items" :key="track.id" v-bind="track">
           <template v-slot:actions>
             <button @click="$emit('select', track)">Play</button>
             <button @click="$emit('enqueue', track)">Add to Queue</button>
           </template>
-        </Track>
+        </track-item>
       </div>
     </div>
 </template>
 
 <script>
-import Track from "./Track.vue"
+import TrackItem from "./TrackItem.vue"
 
 export default {
   name: "TrackList",
-  components: { Track },
+  components: { TrackItem },
   props: {
     items: {
       type: Array,
