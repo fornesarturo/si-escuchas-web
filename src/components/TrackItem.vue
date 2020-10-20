@@ -19,7 +19,7 @@
 <script>
 
 export default {
-  name: "Track",
+  name: "TrackItem",
   props: {
     id: {
       type: String,

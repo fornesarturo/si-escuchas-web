@@ -24,14 +24,14 @@
           Now Playing:
         </div>
         <div class="now-playing">
-          <Track v-bind="currentlyPlaying">
+          <track-item v-bind="currentlyPlaying">
             <template v-slot:actions>
               <div>
                 <button v-if="paused" @click="resume()">Play</button>
                 <button v-else @click="pause()">Pause</button>
               </div>
             </template>
-          </Track>
+          </track-item>
           <input
             id="seek-track"
             type="range"
@@ -55,7 +55,7 @@
 
 <script>
 import Search from "../components/Search.vue"
-import Track from "../components/Track.vue"
+import TrackItem from "../components/TrackItem.vue"
 import ChannelConnection from "../components/ChannelConnection.vue"
 import playbackReady from "../mixins/playbackReady"
 
@@ -69,7 +69,7 @@ function zeroFill(number, width) {
 
 export default {
   name: "Play",
-  components: { Search, Track, ChannelConnection },
+  components: { Search, TrackItem, ChannelConnection },
   mixins: [playbackReady],
   data() {
     return {
